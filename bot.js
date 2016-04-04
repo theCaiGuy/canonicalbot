@@ -10,6 +10,7 @@ function respond() {
   if (request.text && request.text.match(botRegex) {
     this.res.writeHead(200);
     postMessage();
+    this.res.end();
   }
   console.log("posting");
 }
