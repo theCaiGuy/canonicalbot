@@ -59,7 +59,7 @@ function postMessage() {
               }
               var events = response.items;
               if (events.length == 0) {
-                  botResponse = 'No upcoming events found.');
+                  botResponse = 'No upcoming events found.';
                   console.log('No upcoming events found.');
               } else {
                   console.log('Upcoming 10 events:');
