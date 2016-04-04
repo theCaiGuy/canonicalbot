@@ -7,21 +7,24 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /^\/cool guy$/;
 
-  if(request.text && botRegex.test(request.text)) {
-    this.res.writeHead(200);
+//  if(request.text && botRegex.test(request.text)) {
+//    this.res.writeHead(200);
     postMessage();
+    /*
     this.res.end();
   } else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
+  */
+    console.log("oh yaaa");
 }
 
 function postMessage() {
   var botResponse, options, body, botReq;
 
-  botResponse = cool();
+  botResponse = "HAHAHA FUCK YOU BRAD";
 
   options = {
     hostname: 'api.groupme.com',
