@@ -7,12 +7,16 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
       botRegex = /canonical/i;
 
-  if (request.text && request.text.match(botRegex) {
+  if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
+    console.log("posting");
     this.res.writeHead(200);
     postMessage();
     this.res.end();
+  } else {
+    console.log("not posting");
+    this.res.writeHead(200);
+    this.res.end();
   }
-  console.log("posting");
 }
 
 function postMessage() {
