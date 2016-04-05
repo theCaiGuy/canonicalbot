@@ -10,8 +10,9 @@ var google = require('googleapis');
 var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 
 function respond() {
-  var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /canonical/i;
+    var request = JSON.parse(this.req.chunks[0]);
+    console.log(request);
+    var botRegex = /canonical/i;
 
   if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
     this.res.writeHead(200);
