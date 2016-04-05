@@ -58,7 +58,7 @@ function generateMessage(auth, botResponse, options, body, botReq) {
                     start = new Date(start);
                     var event = dateFormat(start, "ddd @ h:MMTT") +  ": " + event.summary + "\n";
                     botResponse += event
-                    console.log(event);
+                    console.log(start, event);
                 }
             botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         }
