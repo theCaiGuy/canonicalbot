@@ -49,6 +49,8 @@ and other fun google related stuff.
 
 ## Google Auth
 
+this is a pain and i will write it up l8er
+basically you need to define all the variables in process.env at the top of bot.js
 
 ## Next, create a GroupMe Bot:
 
