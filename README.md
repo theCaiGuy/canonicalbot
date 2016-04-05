@@ -1,13 +1,21 @@
-# Sample GroupMe NodeJS Callback Bot
+# GroupMe Canonical - A GroupMe NodeJS Callback Bot
 
 ## Introduction
 
-This project shows the capability of a bot to react to messages sent within a group.
+LSJUMB uses groupme a lot. it'd be nice if we could get the canonical in groupme directly
+so we don't have to look it up every time. 
+
+If you want this in your own groupme, talk to the webmaster. Tell em Zoolz sent you. or at
+least the github did.
+
+but if you want to be cool and do your own thing (maybe clone this repo or add a cool 
+feature and create a pull request) keep reading homie. 
 
 ## Contents
 
-  * [Quickly get our sample bot up and running in your groups](#deploy)
-    * Deploy the code to heroku
+  * [Get this bot in your own groupme!](#deploy)
+    * Get started with Heroku
+    * Get that google authentication
     * Create a bot
     * Configure to your bot's credentials
   * [Make changes to the bot](#pull)
@@ -18,24 +26,28 @@ This project shows the capability of a bot to react to messages sent within a gr
 
   * GroupMe account
   * Heroku account
+  * Google developer account
+  * Local copy of Node and npm installed
   * [Heroku Toolbelt](https://toolbelt.heroku.com/)
 
 # Get your bot up and running<a name="deploy"></a>
 
-## Deploy to Heroku:
+## Get started with Heroku:
 
-Be sure to log into heroku, using your heroku credentials, then click the link below.
+first get set up with Heroku command line stuff and login locally. follow the steps on just this page:
+also i'd suggest reading up on this entire page. it really helps for like debugging and testing too.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+[Getting Started on Heroku with Node.js](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up)
 
-You should be taken to a page that looks like this:
+now let's clone this repo locally:
 
-![Deploy to Heroku](http://i.groupme.com/837x662.png.36c63698644a4f61a9ff3d5af91caa5e)
+    $ git clone https://github.com/heroku/node-js-getting-started.git
+    $ cd node-js-getting-started
 
-Optionally, you can give your app a name, or instead leave
-it blank and let Heroku name it for you (you can change it later).
+now, before we push to heroku, you need to set up some variables so you can access the canonical 
+and other fun google related stuff.
 
-![Success](https://i.groupme.com/959x932.png.85e7959a8a9a41c6b20f5f6b50aceecb)
+## Google Auth
 
 
 ## Next, create a GroupMe Bot:
@@ -69,81 +81,39 @@ Click on the one you just created.
 
 ![Select your new bot](http://i.groupme.com/871x333.png.5a33ef2b6ab74ea59d5aaa5569aaaf23)
 
-On your Bot's page, copy the Bot ID
+On your Bot's page, copy the group id and bot id and put them SOMEWHERE
 
-![Copy your Bot ID](http://i.groupme.com/615x295.png.3256190e86ed4cd7ae6cf09899c1f9a8)
 
-## Add your Bot ID to your Heroku app:
-
-Go here to see all of your Heroku apps and select the one you just created before:
-
-https://dashboard-next.heroku.com/apps
-
-![Select your heroku app](http://i.groupme.com/920x722.png.46154d6b95f249539c594b129ddb7732)
-
-On your app page, click settings in the top navigation:
-
-![Go to your app's settings](http://i.groupme.com/722x127.png.27c0a2e83c524064bd41bb66df76d14c)
-
-On your app's setting page, find the Config Vars section and click the Reveal Config Vars button:
-
-![Reveal your environment variables](http://i.groupme.com/606x181.png.94d5157963bc419886e98e038e3195c3)
-
-Then click edit:
-
-![Edit your environment variables](http://i.groupme.com/796x212.png.b8979454fc4742c7bae688ac67262755)
-
-Fill out the form to add an environment variable to your app:
-
-  * In the "key" field type: BOT_ID
-  * In the "value" field paste your Bot ID that you copied in the previous steps
-  * Click the save button
-
-![Add the Bot ID environment variable](http://i.groupme.com/784x148.png.5790498a7acd46b289aca2be43e9c84e)
-
-## Now go test your bot!
-
-Go to GroupMe and type "/cool guy" in the group where your bot lives to see it in action.
-
-![Test your Bot](http://i.groupme.com/821x587.png.7bcf55bed1c64acab83fa2c2ad0b0862)
-
-# Make it your own<a name="pull"></a>
-
-## Pull the code to your local machine
-
-Within terminal, change directory to the location where you would like the files to live, then run this command:
-
-    $ heroku git:clone -a YOUR_APP_NAME_HERE
-
-And then change directory into the new folder
-
-    $ cd YOUR_APP_NAME_HERE
-
-## Configure your local BOT_ID environment variable
-
-Open the file `.env` from your local files in your text editor of choice.
-Find where it says "YOUR_BOT_ID_HERE" and replace it with the ID of your new bot.
-
-If you don't know what your Bot ID is, please refer back to [this](#get-bot-id) section,
-where it is explained how to retrieve it.
-
-If your Bot ID is 12345678910, then:
-
-    BOT_ID="YOUR_BOT_ID_HERE"
-
-becomes:
-
-    BOT_ID="12345678910"
-
-## Start the server
+## Start the server locally for testing
 
 To test your bot locally, open terminal and run the following command to start a local server.
 
-    $ foreman start
+    $ nf start
 
 Then navigate to `http://127.0.0.1:5000/` in a browser.
+you'll see something like "Hey. you reached groupMe Canonical. nice."
 
-![Local bot](http://i.groupme.com/502x133.png.f06c630467954f5dab4c742dc67b71bf)
+if you want it to actually send stuff and see stuff printed like the server is supposed to act,
+try curling:
+
+    $ curl -X POST -d '{"text":"canonical", "group_id":"YOUR_GROUP_ID"}' -H 'Content-Type: application/json' http://127.0.0.1:5000
+
+everything should be sent to the groupme at this point but only because you're using curl. we still need to 
+deploy the bot to heroku for groupme users to request the canonical.
+
+## Now, let's finish up the Heroku stuff
+
+after all your setup with google is done, you want to commit your changes and push them up
+to Heroku to run so:
+
+    $ git add .
+    $ git commit -m "first commit"
+
+now let's actually create the heroku instance and push it up to there:
+
+    $ heroku create
+    $ git push heroku master
+
+now check that everything is working by sending "canonical" to your groupme
 
 ## All done! Go play around and make the bot your own.
-

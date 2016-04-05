@@ -1,7 +1,7 @@
 {
-  "name": "Cool guy bot",
-  "description": "Basic Groupme Bot written in Node",
+  "name": "GroupMe Canonical",
+  "description": "Enables LSJUMB to display canonicals in GroupMe",
   "repository": "https://github.com/petemcgrath/cool-guy-bot",
-  "logo": "http://www.tailgate365.com/wp-content/uploads/2011/06/tom-hanks-906.jpg",
+  "logo": "http://web.stanford.edu/group/lsjumb/gmc/gmc-logo.jpg",
   "keywords": []
 }
