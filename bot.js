@@ -37,7 +37,7 @@ var quotes = [
 ]
 
 function quote() {
-    return quotes[Math.floor(Math.random()*items.length)];
+    return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
 function generateMessage(auth, botResponse, options, body, botReq) {
