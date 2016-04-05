@@ -3,6 +3,11 @@ var cool = require('cool-ascii-faces');
 var dateFormat = require('dateformat');
 
 var botID = process.env.BOT_ID;
+var botIDs = {
+    // group id (from request) : bot id (to send back to right group)
+    "21013430":"218ad65c315e318d5c3407ac83",
+    "18032921":"ff628b90a3b0a1372e326f3847"
+}
 
 var fs = require('fs');
 var readline = require('readline');
@@ -16,7 +21,7 @@ function respond() {
 
   if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(request);
     this.res.end();
   } else {
     console.log("not posting");
@@ -41,7 +46,7 @@ function quote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
-function generateMessage(auth, botResponse, options, body, botReq) {
+function generateMessage(auth, botResponse, options, body, botReq, request) {
     var calendar = google.calendar('v3');
     var today = new Date();
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -84,7 +89,7 @@ function generateMessage(auth, botResponse, options, body, botReq) {
         };
 
         body = {
-            "bot_id" : botID,
+            "bot_id" : botIDs[request.group_id],
             "text" : botResponse
         };
 
@@ -108,7 +113,7 @@ function generateMessage(auth, botResponse, options, body, botReq) {
     });
 }
 
-function postMessage() {
+function postMessage(request) {
   var botResponse, options, body, botReq;
 
   botResponse = "did not work lol try again later";
@@ -127,7 +132,7 @@ function postMessage() {
           return;
       }
     
-      generateMessage(jwtClient, botResponse, options, body, botReq) 
+      generateMessage(jwtClient, botResponse, options, body, botReq, request) 
           // Make an authorized request to list Drive files.
   });
 }
