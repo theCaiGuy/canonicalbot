@@ -23,8 +23,21 @@ function respond() {
     this.res.end();
   }
 }
+
+var quotes = [
+    "it's just a prank bro",
+    "this week in band (lame)",
+    "~~send zoolz ur quotez so that this can be funny~~",
+    "look at all these things we have to go to",
+    "schedule ur lives accordingly",
+    "groupmeklue",
+    "botklue",
+    "what memo",
+    "its lit",
+]
+
 function quote() {
-    return "we should have some quotes for here"
+    return quotes[Math.floor(Math.random()*items.length)];
 }
 
 function generateMessage(auth, botResponse, options, body, botReq) {
