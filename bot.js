@@ -36,15 +36,15 @@ function respond() {
     console.log(request);
     var botRegex = /canonical/i;
 
-  if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
-    this.res.writeHead(200);
-    postMessage(request);
-    this.res.end();
-  } else {
-    console.log("not posting");
-    this.res.writeHead(200);
-    this.res.end();
-  }
+    if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
+        this.res.writeHead(200);
+        postMessage(request);
+        this.res.end();
+    } else {
+        console.log("not posting");
+        this.res.writeHead(200);
+        this.res.end();
+    }
 }
 
 
@@ -52,7 +52,7 @@ function quote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
-function generateMessage(auth) {
+function generateMessage(auth, callback) {
     var botResponse = 'No upcoming events found.';
     var calendar = google.calendar('v3');
     var today = new Date();
@@ -66,9 +66,10 @@ function generateMessage(auth) {
         singleEvents: true,
         orderBy: 'startTime'
     }, function(err, response) {
-        //where the sending of thre response happens
+        // yay so we have a response, let's build the text to send to groupme
         if (err) {
-            throw err
+            callback(err, null);
+            return;
         }
         var events = response.items;
         if (events.length == 0) {
@@ -82,66 +83,69 @@ function generateMessage(auth) {
                     start = new Date(start);
                     var event = dateFormat(start, "ddd @ h:MMTT") +  ": " + event.summary + "\n";
                     botResponse += event
-                    console.log(start, event);
+                        console.log(start, event);
                 }
             botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         }
-        return botResponse
+        //send it back up 
+        callback(null, botResponse);
     });
 }
 
 function postMessage(request) {
-  var botResponse, options, body, botReq;
+    if (botIDs[request.group_id] == null) {
+        console.log("request from not a good group");
+        return;
+    }
+    var botResponse, options, body, botReq;
 
-  botResponse = "did not work lol try again later";
-  // Load client secrets from a local file.
-  var jwtClient = new google.auth.JWT( 
-          serviceAccountEmail,
-          null,
-          key,
-          SCOPES,
-          impersonatedAccount);
+    botResponse = "did not work lol try again later";
+    // Load client secrets from a local file.
+    var jwtClient = new google.auth.JWT( 
+            serviceAccountEmail,
+            null,
+            key,
+            SCOPES,
+            impersonatedAccount);
 
-  jwtClient.authorize(function(err, tokens) {
-      if (err) {
-          console.log("error in authorize:", err);
-          return;
-      }
-      try {
-          botResponse = generateMessage(jwtClient);
-      } catch(err) {
-          console.log('API returned an error:', err);
-          return;
-      } 
-      //set up the http
-      options = {
-          hostname: 'api.groupme.com',
-          path: '/v3/bots/post',
-          method: 'POST'
-      };
+    jwtClient.authorize(function(err, tokens) {
+        if (err) {
+            console.log("error in authorize:", err);
+            return;
+        }
+            generateMessage(jwtClient, function(err, botResponse) {
+                if (err) {
+                    console.log("error in generate message:", err);
+                    return;
+                }
+                // we have a response! and it's good! so we should send it off :)
+                options = {
+                    hostname: 'api.groupme.com',
+                    path: '/v3/bots/post',
+                    method: 'POST'
+                };
 
-      body = {
-          "bot_id" : botIDs[request.group_id],
-          "text" : botResponse
-      };
-      botReq = HTTPS.request(options, function(res) {
-          if(res.statusCode == 202) {
-              //neat
-          } else if(res.statusCode == 400) {
-              console.log('status code is 400 and groupme didnt get anything. punk heroku is down or we sleepin');
-          } else {
-              console.log('rejecting bad status code ' + res.statusCode);
-          }
-      });
+                body = {
+                    "bot_id" : botIDs[request.group_id],
+                    "text" : botResponse
+                };
+                botReq = HTTPS.request(options, function(res) {
+                    if(res.statusCode == 202) {
+                        //neat
+                    } else {
+                        console.log("rejecting bad status code " + res.statusCode + ": " + res.statusMessage);
+                    }
+                });
 
-      botReq.on('error', function(err) {
-          console.log('error posting message '  + JSON.stringify(err));
-      });
-      botReq.on('timeout', function(err) {
-          console.log('timeout posting message '  + JSON.stringify(err));
-      });
-      botReq.end(JSON.stringify(body));
-  });
+                botReq.on('error', function(err) {
+                    console.log('error posting message '  + JSON.stringify(err));
+                });
+                botReq.on('timeout', function(err) {
+                    console.log('timeout posting message '  + JSON.stringify(err));
+                });
+                botReq.end(JSON.stringify(body));
+            });
+    });
 }
 
 
