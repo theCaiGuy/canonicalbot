@@ -35,7 +35,7 @@ var quotes = [
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
     console.log(request);
-    var botRegex = /canonical/i;
+    var botRegex = /^canonical/i;
 
     if (request.text && typeof request.text === "string" && botRegex.test(request.text)) {
         this.res.writeHead(200);
@@ -53,16 +53,31 @@ function quote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
-function generateMessage(auth, callback) {
+function generateMessage(auth, request, callback) {
     var botResponse = 'No upcoming events found.';
     var calendar = google.calendar('v3');
     var today = new Date();
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    var specifiedDate = getDateFromRequest(request); 
+
+
+    /*
+    switch (gmcTypeOf(request)) {
+        case "redvest":
+            break;
+        case "date":
+            break;
+        default:
+            break;
+    }
+    */
+
+
     calendar.events.list({
         auth: auth,
         calendarId: calendarId,
-        timeMin: today.toISOString(),
-        timeMax: nextWeek.toISOString(),
+        timeMin: specifiedDate ? specifiedDate.min.toISOString() : today.toISOString(),
+        timeMax: specifiedDate ? specifiedDate.max.toISOString() : nextWeek.toISOString(),
         maxResults: 10,
         singleEvents: true,
         orderBy: 'startTime'
@@ -114,7 +129,7 @@ function postMessage(request) {
             console.log("error in authorize:", err);
             return;
         }
-            generateMessage(jwtClient, function(err, botResponse) {
+            generateMessage(jwtClient, request, function(err, botResponse) {
                 if (err) {
                     console.log("error in generate message:", err);
                     return;
@@ -149,5 +164,102 @@ function postMessage(request) {
     });
 }
 
+// returns a date object or null
+function getDateFromRequest(request) {
+    var text = request.text;
+    var textarr = text.split(/ +/);
+    var specifiedDate = {
+        min: null,
+        max: null
+    }
+    if (textarr[1]) {
+        console.log(textarr[1]);
+        var daydate = dateFromDay(textarr[1]);
+        if (daydate == null) {
+            return getDateRangeFromDate(dateFromDate(textarr[1]));
+        } else {
+            return getDateRangeFromDate(daydate);
+        }
+    } else {
+        console.log(textarr);
+        return null;
+    }
+}
+function getDateRangeFromDate(date) {
+    if (date) {
+    var specifiedDate = {
+        min: null,
+        max: null
+    };
+    specifiedDate.min = date;
+    specifiedDate.max = new Date(specifiedDate.min.getFullYear(), specifiedDate.min.getMonth(), specifiedDate.min.getDate() + 1, 0,0,0,0);
+    return specifiedDate;
+    }
+    return null;
+
+}
+function dateFromDate(date) {
+    var req = date.split('/');
+    var now = new Date();
+    console.log(req, "with length", req.length);
+    if (req.length == 1) {
+        return new Date(now.getFullYear(), now.getMonth(), req[0], 0,0,0,0);
+    } else if (req.length == 2) {
+        return new Date(now.getFullYear(), parseInt(req[0], 10) - 1, parseInt(req[1], 10),0,0,0,0);
+    } else if (req.length == 3) {
+        var year = parseInt(req[2], 10);
+        if (year < 100) {
+            year = year + 2000; // really roundabout but it doesn't really matter. i don't think this code will be used in year 3000 so there
+        } 
+        return new Date(year, parseInt(req[0], 10) - 1, parseInt(req[1], 10),0,0,0,0);
+    } else {
+        return null;
+    }
+}
+function dateFromDay(day) {
+    var now = new Date();
+    var today = now.getDay();
+    var request = -1;
+    switch(day) {
+        case "sunday":
+        case "sun":
+            request = 0;
+            break;
+        case "monday":
+        case "mon":
+            request = 1;
+            break;
+        case "tuesday":
+        case "tues":
+            request = 2;
+            break;
+        case "wednesday":
+        case "wed":
+            request = 3;
+            break;
+        case "thursday":
+        case "thurs":
+            request = 4;
+            break;
+        case "friday":
+        case "fri":
+            request = 5;
+            break;
+        case "saturday":
+        case "sat":
+            request = 6;
+            break;
+    }
+    if (request == -1) {
+        return null;
+    }
+    var daysahead = 0;
+    if (today < request) {
+        daysahead = request - today;
+    } else {
+        daysahead = 7 - (today - request);
+    }
+    return new Date(now.getTime() + daysahead * 24 * 60 * 60 * 1000);
+}
 
 exports.respond = respond;
