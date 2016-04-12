@@ -13,7 +13,8 @@ var botIDs = {
     "18032921":"ff628b90a3b0a1372e326f3847",
     "1689488":"2cfb0f7188d1d9c5392c9f3b36",
     "17134214":"ebc25e337c1c99d2026b8f85d9",
-    "1695911":"edbebb46c0f5fdf568cfaa955c"
+    "1695911":"edbebb46c0f5fdf568cfaa955c",
+    "17051947":"fbc74e3b377914610a6e27b062"
 }
 var SCOPES = process.env.SCOPES.split(' ');
 var calendarId = process.env.CALENDAR_ID;
