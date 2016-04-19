@@ -11,6 +11,7 @@ router = new director.http.Router({
   }
 });
 
+var hell = "hi olivia!";
 server = http.createServer(function (req, res) {
     req.chunks = [];
     req.on('data', function (chunk) {
