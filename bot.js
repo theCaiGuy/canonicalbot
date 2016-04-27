@@ -56,7 +56,9 @@ function quote() {
 }
 
 function gmcTypeOf(request) {
-
+    var text = request.text;
+    var textarr = text.split(/ +/);
+    return textarr[1] == "help"?"help":null; // wow this is bad but hopefully gmcTypeOf is used in switch statements
 }
 
 function generateMessage(auth, request, callback) {
@@ -66,7 +68,7 @@ function generateMessage(auth, request, callback) {
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
     var specifiedDate = getDateFromRequest(request); 
 
-    if (gmcTypeOf(request) == help) {
+    if (gmcTypeOf(request) == "help") {
         callback(null, helpString);
     }
 
