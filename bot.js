@@ -265,8 +265,11 @@ function dateFromDay(day) {
             break;
         case "today":
         case "Today":
-            return now;
+            request = -2;
             break;
+    }
+    if (request == -2) {
+        return now;
     }
     if (request == -1) {
         return null;
