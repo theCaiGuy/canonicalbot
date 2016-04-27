@@ -32,6 +32,7 @@ var quotes = [
     "what memo",
     "its lit",
 ]
+var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828"; 
 
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
@@ -54,6 +55,10 @@ function quote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
 }
 
+function gmcTypeOf(request) {
+
+}
+
 function generateMessage(auth, request, callback) {
     var botResponse = 'No upcoming events found.';
     var calendar = google.calendar('v3');
@@ -61,18 +66,9 @@ function generateMessage(auth, request, callback) {
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
     var specifiedDate = getDateFromRequest(request); 
 
-
-    /*
-    switch (gmcTypeOf(request)) {
-        case "redvest":
-            break;
-        case "date":
-            break;
-        default:
-            break;
+    if (gmcTypeOf(request) == help) {
+        callback(null, helpString);
     }
-    */
-
 
     calendar.events.list({
         auth: auth,
