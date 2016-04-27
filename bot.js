@@ -70,6 +70,7 @@ function generateMessage(auth, request, callback) {
 
     if (gmcTypeOf(request) == "help") {
         callback(null, helpString);
+        return;
     }
 
     calendar.events.list({
