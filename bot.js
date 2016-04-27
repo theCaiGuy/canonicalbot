@@ -223,32 +223,50 @@ function dateFromDay(day) {
     var request = -1;
     switch(day) {
         case "sunday":
+        case "Sunday":
+        case "Sun":
         case "sun":
             request = 0;
             break;
         case "monday":
         case "mon":
+        case "Monday":
+        case "Mon":
             request = 1;
             break;
         case "tuesday":
         case "tues":
+        case "Tuesday":
+        case "Tues":
             request = 2;
             break;
         case "wednesday":
         case "wed":
+        case "Wednesday":
+        case "Wed":
             request = 3;
             break;
         case "thursday":
         case "thurs":
+        case "Thursday":
+        case "Thurs":
             request = 4;
             break;
         case "friday":
         case "fri":
+        case "Friday":
+        case "Fri":
             request = 5;
             break;
         case "saturday":
         case "sat":
+        case "Saturday":
+        case "Sat":
             request = 6;
+            break;
+        case "today":
+        case "Today":
+            return now;
             break;
     }
     if (request == -1) {
