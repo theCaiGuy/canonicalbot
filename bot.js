@@ -101,7 +101,7 @@ function generateMessage(auth, request, callback) {
                     botResponse += event
                         console.log(start, event);
                 }
-            botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nLearn Chartz:\nhttp://bit.ly/1RTDSP2"
         }
         //send it back up 
         callback(null, botResponse);
