@@ -3,7 +3,7 @@ var botIDs = {
     // like this:
     // "<group id>": "<bot id>",
     "1689488":"ce60c19434e25efea5e286ed9e",
-    "37009291": "75833ac167c8ccfd5fbc69f909"
+    "37009291":"75833ac167c8ccfd5fbc69f909"
 
 }
 var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];

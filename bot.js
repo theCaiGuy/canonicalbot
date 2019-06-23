@@ -9,12 +9,8 @@ var botIDs = {
     // group id (from request) : bot id (to send back to right group)
     // like this:
     // "<group id>": "<bot id>",
-    "21013430":"218ad65c315e318d5c3407ac83",
-    "18032921":"ff628b90a3b0a1372e326f3847",
-    "1689488":"2cfb0f7188d1d9c5392c9f3b36",
-    "17134214":"ebc25e337c1c99d2026b8f85d9",
-    "1695911":"edbebb46c0f5fdf568cfaa955c",
-    "17051947":"fbc74e3b377914610a6e27b062"
+    "1689488":"ce60c19434e25efea5e286ed9e",
+    "37009291":"75833ac167c8ccfd5fbc69f909"
 }
 var SCOPES = process.env.SCOPES.split(' ');
 var calendarId = process.env.CALENDAR_ID;
@@ -22,17 +18,18 @@ var serviceAccountEmail = process.env.SERVICE_ACCOUNT_EMAIL;
 var impersonatedAccount = process.env.IMPERSONATED_ACCOUNT;
 var key = fs.readFileSync('key.pem');
 var quotes = [
-    "it's just a prank bro",
-    "this week in band (lame)",
-    "~~send zoolz ur quotez so that this can be funny~~",
-    "look at all these things we have to go to",
-    "schedule ur lives accordingly",
-    "groupmeklue",
-    "botklue",
-    "what memo",
-    "its lit",
+    // "it's just a prank bro",
+    // "this week in band (lame)",
+    // "~~send Wild Card ur quotez so that this can be funny~~",
+    // "look at all these things we have to go to",
+    // "schedule ur lives accordingly",
+    // "groupmeklue",
+    // "botklue",
+    // "what memo",
+    // "its lit",
+    "Sign this petition! http://chng.it/SKdnt2Vh"
 ]
-var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828"; 
+var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828";
 
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
@@ -66,7 +63,7 @@ function generateMessage(auth, request, callback) {
     var calendar = google.calendar('v3');
     var today = new Date();
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    var specifiedDate = getDateFromRequest(request); 
+    var specifiedDate = getDateFromRequest(request);
 
     if (gmcTypeOf(request) == "help") {
         callback(null, helpString);
@@ -103,7 +100,7 @@ function generateMessage(auth, request, callback) {
                 }
             botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nLearn Chartz:\nhttp://bit.ly/1RTDSP2"
         }
-        //send it back up 
+        //send it back up
         callback(null, botResponse);
     });
 }
@@ -117,7 +114,7 @@ function postMessage(request) {
 
     botResponse = "did not work lol try again later";
     // Load client secrets from a local file.
-    var jwtClient = new google.auth.JWT( 
+    var jwtClient = new google.auth.JWT(
             serviceAccountEmail,
             null,
             key,
@@ -210,7 +207,7 @@ function dateFromDate(date) {
         var year = parseInt(req[2], 10);
         if (year < 100) {
             year = year + 2000; // really roundabout but it doesn't really matter. i don't think this code will be used in year 3000 so there
-        } 
+        }
         return new Date(year, parseInt(req[0], 10) - 1, parseInt(req[1], 10),0,0,0,0);
     } else {
         return null;
