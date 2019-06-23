@@ -20,7 +20,7 @@ var key = fs.readFileSync('key.pem');
 var quotes = [
     // "it's just a prank bro",
     // "this week in band (lame)",
-    "~~send Wild Card ur quotez so that this can be funny~~",
+    "send Wild Card ur quotez so that this can be funny",
     // "look at all these things we have to go to",
     // "schedule ur lives accordingly",
     // "groupmeklue",
@@ -59,7 +59,7 @@ function gmcTypeOf(request) {
 }
 
 function generateMessage(auth, request, callback) {
-    var botResponse = 'No upcoming events found.';
+    var botResponse = 'Show me Shes Not There';
     var calendar = google.calendar('v3');
     var today = new Date();
     var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
