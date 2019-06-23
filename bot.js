@@ -20,7 +20,7 @@ var key = fs.readFileSync('key.pem');
 var quotes = [
     // "it's just a prank bro",
     // "this week in band (lame)",
-    // "~~send Wild Card ur quotez so that this can be funny~~",
+    "~~send Wild Card ur quotez so that this can be funny~~",
     // "look at all these things we have to go to",
     // "schedule ur lives accordingly",
     // "groupmeklue",
@@ -89,7 +89,7 @@ function generateMessage(auth, request, callback) {
             console.log('No upcoming events found.');
         } else {
             console.log("events sent:");
-            botResponse = "~~" + quote() + "~~\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+            botResponse = "~~ " + quote() + " ~~\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 for (var i = 0; i < events.length; i++) {
                     var event = events[i];
                     var start = event.start.dateTime || event.start.date;
