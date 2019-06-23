@@ -18,18 +18,19 @@ var serviceAccountEmail = process.env.SERVICE_ACCOUNT_EMAIL;
 var impersonatedAccount = process.env.IMPERSONATED_ACCOUNT;
 var key = fs.readFileSync('key.pem');
 var quotes = [
-    // "it's just a prank bro",
-    // "this week in band (lame)",
+    "it's just a prank bro",
+    "this week in band (lame)",
     "send Wild Card ur quotez so that this can be funny",
-    // "look at all these things we have to go to",
-    // "schedule ur lives accordingly",
-    // "groupmeklue",
-    // "botklue",
-    // "what memo",
-    // "its lit",
+    "look at all these things we have to go to",
+    "schedule ur lives accordingly",
+    "groupmeklue",
+    "botklue",
+    "what memo",
+    "its lit",
     "Sign this petition! http://chng.it/SKdnt2Vh"
 ]
 var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828";
+
 
 function respond() {
     var request = JSON.parse(this.req.chunks[0]);
@@ -46,7 +47,6 @@ function respond() {
         this.res.end();
     }
 }
-
 
 function quote() {
     return quotes[Math.floor(Math.random()*quotes.length)];
@@ -182,6 +182,7 @@ function getDateFromRequest(request) {
         return null;
     }
 }
+
 function getDateRangeFromDate(date) {
     if (date) {
     var specifiedDate = {
@@ -195,6 +196,7 @@ function getDateRangeFromDate(date) {
     return null;
 
 }
+
 function dateFromDate(date) {
     var req = date.split('/');
     var now = new Date();
@@ -213,6 +215,7 @@ function dateFromDate(date) {
         return null;
     }
 }
+
 function dateFromDay(day) {
     var now = new Date();
     var today = now.getDay();
