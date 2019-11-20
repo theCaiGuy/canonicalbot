@@ -102,8 +102,8 @@ function generateMessage(auth, request, callback) {
                         console.log(start, event);
                 }
             botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nLearn Chartz:\nhttps://bit.ly/2CpEyQj\n"
-            botResponse += "Add Canonical to GCal:\n https://tinyurl.com/lsjumb-canonical\n"
-            botResponse += "Add Altoz Calendar to GCal:\n https://tinyurl.com/hang-with-altoz"
+            botResponse += "Add Canonical to GCal:\nhttps://tinyurl.com/lsjumb-canonical\n"
+            botResponse += "Add Altoz Calendar to GCal:\nhttps://tinyurl.com/hang-with-altoz"
         }
         //send it back up
         callback(null, botResponse);
