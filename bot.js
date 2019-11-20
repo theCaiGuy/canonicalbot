@@ -29,7 +29,8 @@ var quotes = [
     "Bork",
     "Alexa play Despacito",
     "Is it just me, or does TaL really like chemistry?",
-    "All I want for Christmas is youuuu"
+    "All I want for Christmas is youuuu",
+    "Show me Careless Whisper"
 ]
 var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828";
 
