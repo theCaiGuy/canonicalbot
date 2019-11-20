@@ -19,7 +19,6 @@ var impersonatedAccount = process.env.IMPERSONATED_ACCOUNT;
 var key = fs.readFileSync('key.pem');
 var quotes = [
     "it's just a prank bro",
-    "this week in band (lame)",
     "send Wild Card ur quotez so that this can be funny",
     "look at all these things we have to go to",
     "schedule ur lives accordingly",
@@ -27,7 +26,10 @@ var quotes = [
     "botklue",
     "what memo",
     "its lit",
-    "Sign this petition! http://chng.it/SKdnt2Vh"
+    "Bork",
+    "Alexa play Despacito",
+    "Is it just me, or does TaL really like chemistry?",
+    "All I want for Christmas is youuuu"
 ]
 var helpString = "Canonical bot is pretty and you can do some neat stuff:\nGet events on a specific date:\nCanonical 4/20\nCanonical Saturday\nCanonical today\nCanonical Sat\nOr get all the events in the next seven days:\nCanonical\nLike canonical bot or interested in contributing? email webmaster@lsjumb.edu. Everything else, text brad @ (650) 847-0828";
 
@@ -98,7 +100,9 @@ function generateMessage(auth, request, callback) {
                     botResponse += event
                         console.log(start, event);
                 }
-            botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nLearn Chartz:\nhttps://bit.ly/2CpEyQj"
+            botResponse += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nLearn Chartz:\nhttps://bit.ly/2CpEyQj\n"
+            botResponse += "Add Canonical to GCal:\n https://tinyurl.com/lsjumb-canonical\n"
+            botResponse += "Add Altoz Calendar to GCal:\n https://tinyurl.com/hang-with-altoz"
         }
         //send it back up
         callback(null, botResponse);
